@@ -52,7 +52,7 @@ import throttle from 'lodash.throttle';
       localStorage.removeItem('feedback-form-state');
       event.currentTarget.reset();
       console.log(this.localStorageFormHolder);
-      for (key in this.localStorageFormHolder) {
+      for (let key in this.localStorageFormHolder) {
         this.localStorageFormHolder[key] = '';
       }
     },

@@ -23,7 +23,7 @@ import throttle from 'lodash.throttle';
       });
 
       const throttled = throttle(data => {
-        for (key in data) {
+        for (let key in data) {
           console.log(`data.${key}`, data[key]);
         }
         localStorage.setItem('videoplayer-current-time', data.seconds);
