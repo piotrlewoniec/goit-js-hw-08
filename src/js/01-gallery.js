@@ -1,3 +1,4 @@
+'use strict';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 // Add imports above this line
@@ -6,8 +7,13 @@ import { galleryItems } from './gallery-items';
 (() => {
   const gallery = {
     galleryArea: document.querySelector('.gallery'),
+    instanceSimpleLightbox: {},
     init: function () {
       this.galleryCreate();
+      this.instanceSimpleLightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: '250',
+      });
       this.galleryArea.addEventListener(
         'click',
         function (event) {
@@ -31,12 +37,8 @@ import { galleryItems } from './gallery-items';
       if (event.target.nodeName !== 'IMG') {
         return;
       }
-      //   let instanceSimpleLightbox = new SimpleLightbox('.gallery a');
-      let instanceSimpleLightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: '250',
-      });
-      instanceSimpleLightbox.on('error.simplelightbox', function (e) {
+      // this.instanceSimpleLightbox.open();
+      this.instanceSimpleLightbox.on('error.simplelightbox', function (e) {
         console.log(e); // some usefull information
       });
     },

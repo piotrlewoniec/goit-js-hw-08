@@ -1,36 +1,26 @@
+'use strict';
 import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
 
 (() => {
   const player = {
     playerBind: document.querySelector('#vimeo-player'),
+    playerInstance: {},
+    videoPlayer: {},
     init: function () {
       console.log('obj init');
       this.playerInit();
     },
     playerInit: function () {
       console.log('running playerInit');
-      const playerInstance = this.playerBind;
-      const videoPlayer = new Player(playerInstance);
-      videoPlayer.getVideoTitle().then(function (title) {
+      this.playerInstance = this.playerBind;
+      this.videoPlayer = new Player(this.playerInstance);
+      this.videoPlayer.getVideoTitle().then(function (title) {
         console.log('title:', title);
       });
-      videoPlayer.on('play', function () {
+      this.videoPlayer.on('play', function () {
         console.log('playing...');
       });
-
-      // videoPlayer.on('timeupdate', function (data) {
-      //   // data is an object containing properties specific to that event
-      //   for (key in data) {
-      //     console.log(`data.${key}`, data[key]);
-      //   }
-      //   localStorage.setItem('videoplayer-current-time', data.seconds);
-      //   console.log(
-      //     'in localStorage',
-      //     localStorage.getItem('videoplayer-current-time')
-      //   );
-      //   console.log('----------');
-      // });
 
       const throttled = throttle(data => {
         for (key in data) {
@@ -44,11 +34,11 @@ import throttle from 'lodash.throttle';
         console.log('----------');
       }, 1000);
 
-      videoPlayer.on('timeupdate', function (data) {
+      this.videoPlayer.on('timeupdate', function (data) {
         throttled(data);
       });
 
-      videoPlayer
+      this.videoPlayer
         .setCurrentTime(localStorage.getItem('videoplayer-current-time'))
         .then(function (seconds) {
           // seconds = the actual time that the player seeked to
@@ -62,6 +52,7 @@ import throttle from 'lodash.throttle';
 
             default:
               // some other error occurred
+              console.log(error);
               break;
           }
         });
@@ -69,13 +60,6 @@ import throttle from 'lodash.throttle';
   };
   player.init();
   console.log(player.playerBind.attributes);
-
-  document.addEventListener(
-    'click',
-    throttle(() => {
-      console.log('Click handler call every 1000ms');
-    }, 1000)
-  );
 })();
 
 // Zadanie 2 - odtwarzacz wideo
@@ -105,3 +89,24 @@ import throttle from 'lodash.throttle';
 
 // - Dodaj do projektu bibliotekę lodash.throttle i zrób tak, aby czas odtwarzania aktualizował się w storage nie częściej niż raz na sekundę.
 // https://www.npmjs.com/package/lodash.throttle
+
+//Backup tests
+
+// videoPlayer.on('timeupdate', function (data) {
+//   // data is an object containing properties specific to that event
+//   for (key in data) {
+//     console.log(`data.${key}`, data[key]);
+//   }
+//   localStorage.setItem('videoplayer-current-time', data.seconds);
+//   console.log(
+//     'in localStorage',
+//     localStorage.getItem('videoplayer-current-time')
+//   );
+//   console.log('----------');
+// });
+// document.addEventListener(
+//   'click',
+//   throttle(() => {
+//     console.log('Click handler call every 1000ms');
+//   }, 1000)
+// );

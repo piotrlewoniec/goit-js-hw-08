@@ -1,3 +1,4 @@
+'use strict';
 import throttle from 'lodash.throttle';
 
 (() => {
@@ -33,12 +34,6 @@ import throttle from 'lodash.throttle';
         'input',
         throttle(this.formInput, 500).bind(this)
       );
-      //   this.formBind.addEventListener(
-      //     'input',
-      //     throttle(() => {
-      //       this.formInput();
-      //     }, 3000)
-      //   );
     },
     formInput: function () {
       this.localStorageFormHolder.email = this.formBind.elements.email.value;
