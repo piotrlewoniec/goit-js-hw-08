@@ -8,58 +8,23 @@ import throttle from 'lodash.throttle';
     playerInstance: {},
     videoPlayer: {},
     init: function () {
-      console.log('obj init');
-      this.playerInit();
-    },
-    playerInit: function () {
-      console.log('running playerInit');
       this.playerInstance = this.playerBind;
       this.videoPlayer = new Player(this.playerInstance);
-      this.videoPlayer.getVideoTitle().then(function (title) {
-        console.log('title:', title);
-      });
-      this.videoPlayer.on('play', function () {
-        console.log('playing...');
-      });
-
       const throttled = throttle(data => {
-        for (let key in data) {
-          console.log(`data.${key}`, data[key]);
-        }
         localStorage.setItem('videoplayer-current-time', data.seconds);
-        console.log(
-          'in localStorage',
-          localStorage.getItem('videoplayer-current-time')
-        );
-        console.log('----------');
       }, 1000);
-
       this.videoPlayer.on('timeupdate', function (data) {
         throttled(data);
       });
-
       this.videoPlayer
         .setCurrentTime(localStorage.getItem('videoplayer-current-time'))
         .then(function (seconds) {
           // seconds = the actual time that the player seeked to
-          console.log('settings current playback time');
         })
-        .catch(function (error) {
-          switch (error.name) {
-            case 'RangeError':
-              // the time was less than 0 or greater than the video’s duration
-              break;
-
-            default:
-              // some other error occurred
-              console.log(error);
-              break;
-          }
-        });
+        .catch(function (error) {});
     },
   };
   player.init();
-  console.log(player.playerBind.attributes);
 })();
 
 // Zadanie 2 - odtwarzacz wideo
@@ -110,3 +75,34 @@ import throttle from 'lodash.throttle';
 //     console.log('Click handler call every 1000ms');
 //   }, 1000)
 // );
+// this.videoPlayer.getVideoTitle().then(function (title) {
+//   console.log('title:', title);
+// });
+// this.videoPlayer.on('play', function () {
+//   console.log('playing...');
+// });
+// const throttled = throttle(data => {
+//   for (let key in data) {
+//     console.log(`data.${key}`, data[key]);
+//   }
+//   localStorage.setItem('videoplayer-current-time', data.seconds);
+//   console.log(
+//     'in localStorage',
+//     localStorage.getItem('videoplayer-current-time')
+//   );
+// this.videoPlayer
+//         .setCurrentTime(localStorage.getItem('videoplayer-current-time'))
+//         .then(function (seconds) {
+//           // seconds = the actual time that the player seeked to
+//         })
+//         .catch(function (error) {
+//           switch (error.name) {
+//             case 'RangeError':
+//               // the time was less than 0 or greater than the video’s duration
+//               break;
+//             default:
+//               // some other error occurred
+//               //console.log(error);
+//               break;
+//           }
+//         });
