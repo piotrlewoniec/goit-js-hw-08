@@ -16,12 +16,9 @@ import throttle from 'lodash.throttle';
       this.videoPlayer.on('timeupdate', function (data) {
         throttled(data);
       });
-      this.videoPlayer
-        .setCurrentTime(localStorage.getItem('videoplayer-current-time'))
-        .then(function (seconds) {
-          // seconds = the actual time that the player seeked to
-        })
-        .catch(function (error) {});
+      this.videoPlayer.setCurrentTime(
+        localStorage.getItem('videoplayer-current-time')
+      );
     },
   };
   player.init();
